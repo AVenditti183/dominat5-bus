@@ -42,6 +42,10 @@ namespace modulo1
                     await busControl.Publish<ValueEntered>(new
                     {
                         Value = value
+                    },
+                    context => {
+                        context.Durable = true;
+                        context.TimeToLive = TimeSpan.FromSeconds(10);
                     });
                 }
             }
