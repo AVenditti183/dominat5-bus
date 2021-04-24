@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EventContracts;
+using GreenPipes;
 using MassTransit;
 
 namespace modulo2
@@ -22,7 +23,12 @@ namespace modulo2
 
                 cfg.ReceiveEndpoint("modulo3", e =>
                 {
+                    //e.UseMessageRetry(r => r.Immediate(5));
                     e.Consumer<EventConsumer>();
+                });
+                cfg.UseRetry( e => 
+                {
+                    e.Immediate(5);
                 });
             });
 
@@ -43,8 +49,12 @@ namespace modulo2
 
         class EventConsumer : IConsumer<ValueEntered>
         {
+            static int counter =0;
             public async Task Consume(ConsumeContext<ValueEntered> context)
             {
+                counter++;
+                if(counter %2 ==0)
+                    throw new InvalidOperationException();
                 Console.WriteLine("Modulo 3 - Value: {0}", context.Message.Value);
             }
         }
