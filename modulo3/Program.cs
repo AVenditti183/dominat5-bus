@@ -23,7 +23,7 @@ namespace modulo2
 
                 cfg.ReceiveEndpoint("modulo3", e =>
                 {
-                    //e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Incremental(5,TimeSpan.FromSeconds(2),TimeSpan.FromSeconds(3)));
                     e.Consumer<EventConsumer>();
                 });
                 cfg.UseRetry( e => 
