@@ -14,10 +14,10 @@ namespace modulo1
 
              var busControl = Bus.Factory.CreateUsingRabbitMq( cfg=>
              {
-                cfg.Host("localhost","/", h=>
+                cfg.Host("localhost", "/", h=>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username("dominat5");
+                    h.Password("dbAdmin");
                 });
              });
 
@@ -39,7 +39,7 @@ namespace modulo1
                     if("quit".Equals(value, StringComparison.OrdinalIgnoreCase))
                         break;
 
-                    await busControl.Publish<ValueEntered>(new
+                    await busControl.Publish<IValueEntered>(new
                     {
                         Value = value
                     },
@@ -59,7 +59,7 @@ namespace modulo1
 
 namespace EventContracts
 {
-    public interface ValueEntered
+    public interface IValueEntered
     {
         string Value { get; }
     }
