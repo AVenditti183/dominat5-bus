@@ -21,7 +21,7 @@ namespace modulo2
                     h.Password("guest");
                 });
 
-                cfg.ReceiveEndpoint("modulo3", e =>
+                cfg.ReceiveEndpoint("transient", e =>
                 {
                     e.UseMessageRetry(r => r.Incremental(5,TimeSpan.FromSeconds(2),TimeSpan.FromSeconds(3)));
                     e.Consumer<EventConsumer>();
@@ -47,15 +47,15 @@ namespace modulo2
             }
         }
 
-        class EventConsumer : IConsumer<ValueEntered>
+        class EventConsumer : IConsumer<IValueEntered>
         {
             static int counter =0;
-            public async Task Consume(ConsumeContext<ValueEntered> context)
+            public async Task Consume(ConsumeContext<IValueEntered> context)
             {
                 counter++;
                 if(counter %2 ==0)
                     throw new InvalidOperationException();
-                Console.WriteLine("Modulo 3 - Value: {0}", context.Message.Value);
+                Console.WriteLine("Transient - Value: {0}", context.Message.Value);
             }
         }
     }
@@ -63,7 +63,7 @@ namespace modulo2
 
 namespace EventContracts
 {
-    public interface ValueEntered
+    public interface IValueEntered
     {
         string Value { get; }
     }

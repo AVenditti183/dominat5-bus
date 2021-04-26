@@ -35,9 +35,9 @@ namespace modulo2
             }
         }
 
-        class EventConsumer : IConsumer<ValueEntered>
+        class EventConsumer : IConsumer<IValueEntered>
         {
-            public async Task Consume(ConsumeContext<ValueEntered> context)
+            public async Task Consume(ConsumeContext<IValueEntered> context)
             {
                 Console.WriteLine("Modulo 2 - Value: {0}", context.Message.Value);
             }
@@ -47,7 +47,7 @@ namespace modulo2
 
 namespace EventContracts
 {
-    public interface ValueEntered
+    public interface IValueEntered
     {
         string Value { get; }
     }

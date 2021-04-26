@@ -1,1 +1,1 @@
-docker run -p 15672:15672 -p 5672:5672 -d --hostname dominat --name some-rabbit rabbitmq:3-management --restart always
+docker run -p 15672:15672 -p 5672:5672 -d --hostname dominat --name dominat5-rabbit rabbitmq:3-management --restart always
